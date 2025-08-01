@@ -1,0 +1,156 @@
+* {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+}
+
+body {
+ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+ background: #1a1a2e;
+ color: #eee;
+ min-height: 100vh;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+
+.container {
+ background: #16213e;
+ padding: 2rem;
+ border-radius: 10px;
+ box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+ width: 90%;
+ max-width: 500px;
+}
+
+h1 {
+ text-align: center;
+ margin-bottom: 2rem;
+ color: #0f3460;
+ text-shadow: 0 0 10px rgba(15, 52, 96, 0.5);
+}
+
+.section {
+ margin-bottom: 1.5rem;
+}
+
+.hidden {
+ display: none;
+}
+
+#room-input {
+ width: 100%;
+ padding: 0.75rem;
+ margin-bottom: 1rem;
+ border: 1px solid #0f3460;
+ background: #1a1a2e;
+ color: #eee;
+ border-radius: 5px;
+ font-size: 1rem;
+}
+
+#connect-btn, .control-btn {
+ width: 100%;
+ padding: 0.75rem;
+ background: #0f3460;
+ color: #eee;
+ border: none;
+ border-radius: 5px;
+ font-size: 1rem;
+ cursor: pointer;
+ transition: background 0.3s;
+}
+
+#connect-btn:hover, .control-btn:hover {
+ background: #1e5f8e;
+}
+
+.info {
+ background: #1a1a2e;
+ padding: 1rem;
+ border-radius: 5px;
+ margin-bottom: 1rem;
+}
+
+.info p {
+ margin-bottom: 0.5rem;
+}
+
+.info span {
+ font-weight: bold;
+ color: #4fbdba;
+}
+
+.controls {
+ display: flex;
+ gap: 1rem;
+ margin-bottom: 1.5rem;
+}
+
+.control-btn {
+ flex: 1;
+}
+
+#mute-btn {
+ background: #e94560;
+}
+
+#mute-btn:hover {
+ background: #c13651;
+}
+
+.audio-levels {
+ margin-bottom: 1.5rem;
+}
+
+.level-meter {
+ margin-bottom: 1rem;
+}
+
+.level-label {
+ font-size: 0.875rem;
+ margin-bottom: 0.5rem;
+ color: #aaa;
+}
+
+.level-bar {
+ width: 100%;
+ height: 20px;
+ background: #1a1a2e;
+ border-radius: 10px;
+ overflow: hidden;
+ position: relative;
+}
+
+.level-fill {
+ height: 100%;
+ background: linear-gradient(to right, #4fbdba, #7ec8e3);
+ width: 0%;
+ transition: width 0.1s;
+}
+
+.peers {
+ display: flex;
+ flex-direction: column;
+ gap: 1rem;
+}
+
+.peer {
+ background: #1a1a2e;
+ padding: 1rem;
+ border-radius: 5px;
+}
+
+.peer-id {
+ font-size: 0.875rem;
+ color: #aaa;
+ margin-bottom: 0.5rem;
+}
+
+#connection-status {
+ color: #e94560;
+}
+
+#connection-status.connected {
+ color: #4fbdba;
+}
