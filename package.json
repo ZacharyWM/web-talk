@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "bun run --watch server/index.ts",
     "start": "bun run server/index.ts",
-    "build": "bun build server/index.ts --outdir=dist --target=node"
+    "build": "bun build server/index.ts --outdir=dist --target=node",
+    "lint": "bunx prettier --write ."
   },
   "devDependencies": {
     "@types/bun": "latest",
