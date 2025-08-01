@@ -1,48 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Voice Chat</title>
- <link rel="stylesheet" href="styles.css">
-</head>
-<body>
- <div class="container">
- <h1>Voice Chat</h1>
- 
- <div id="connect-section" class="section">
- <input type="text" id="room-input" placeholder="Enter room ID" />
- <button id="connect-btn">Join Room</button>
- </div>
- 
- <div id="chat-section" class="section hidden">
- <div class="info">
- <p>Room: <span id="room-id"></span></p>
- <p>Status: <span id="connection-status">Disconnected</span></p>
- <p>Peers: <span id="peer-count">0</span></p>
- </div>
- 
- <div class="controls">
- <button id="mute-btn" class="control-btn">
- <span class="mute-icon">🎤</span>
- <span class="unmute-icon hidden">🔇</span>
- </button>
- <button id="leave-btn" class="control-btn">Leave Room</button>
- </div>
- 
- <div class="audio-levels">
- <div class="level-meter">
- <div class="level-label">Your Audio</div>
- <div class="level-bar">
- <div id="local-level" class="level-fill"></div>
- </div>
- </div>
- </div>
- 
- <div id="peers" class="peers"></div>
- </div>
- </div>
- 
- <script src="app.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voice Chat</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Voice Chat</h1>
+
+      <div id="connect-section" class="section">
+        <input type="text" id="room-input" placeholder="Enter room ID" />
+        <button id="connect-btn">Join Room</button>
+      </div>
+
+      <div id="chat-section" class="section hidden">
+        <div class="info">
+          <p>Room: <span id="room-id"></span></p>
+          <p>Status: <span id="connection-status">Disconnected</span></p>
+          <p>Peers: <span id="peer-count">0</span></p>
+        </div>
+
+        <div class="controls">
+          <button id="mute-btn" class="control-btn">
+            <span class="mute-icon">🎤</span>
+            <span class="unmute-icon hidden">🔇</span>
+          </button>
+          <button id="leave-btn" class="control-btn">Leave Room</button>
+        </div>
+
+        <div class="audio-levels">
+          <div class="level-meter">
+            <div class="level-label">Your Audio</div>
+            <div class="level-bar">
+              <div id="local-level" class="level-fill"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="peers" class="peers"></div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
 </html>

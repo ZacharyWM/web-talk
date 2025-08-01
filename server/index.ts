@@ -1,7 +1,7 @@
-import { WebSocketServer } from "ws";
-import { createServer } from "http";
-import { readFileSync } from "fs";
-import { join } from "path";
+import { WebSocketServer } from 'ws';
+import { createServer } from 'http';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
 const PORT = process.env.PORT || 3000;
 
@@ -15,69 +15,64 @@ const clients = new Map<string, Client>();
 const rooms = new Map<string, Set<string>>();
 
 const server = createServer((req, res) => {
-  let filePath = join(
-    __dirname,
-    "..",
-    "public",
-    req.url === "/" ? "index.html" : req.url!
-  );
+  let filePath = join(__dirname, '..', 'public', req.url === '/' ? 'index.html' : req.url!);
 
   try {
     const content = readFileSync(filePath);
-    const ext = filePath.split(".").pop();
+    const ext = filePath.split('.').pop();
     const contentType =
-      ext === "js"
-        ? "application/javascript"
-        : ext === "css"
-        ? "text/css"
-        : ext === "html"
-        ? "text/html"
-        : "text/plain";
+      ext === 'js'
+        ? 'application/javascript'
+        : ext === 'css'
+          ? 'text/css'
+          : ext === 'html'
+            ? 'text/html'
+            : 'text/plain';
 
-    res.writeHead(200, { "Content-Type": contentType });
+    res.writeHead(200, { 'Content-Type': contentType });
     res.end(content);
   } catch (err) {
     res.writeHead(404);
-    res.end("Not found");
+    res.end('Not found');
   }
 });
 
 const wss = new WebSocketServer({ server });
 
-wss.on("connection", (ws) => {
+wss.on('connection', (ws) => {
   const clientId = Math.random().toString(36).substring(7);
   const client: Client = { id: clientId, ws };
   clients.set(clientId, client);
 
   console.log(`Client ${clientId} connected`);
 
-  ws.send(JSON.stringify({ type: "id", id: clientId }));
+  ws.send(JSON.stringify({ type: 'id', id: clientId }));
 
-  ws.on("message", (data) => {
+  ws.on('message', (data) => {
     try {
       const message = JSON.parse(data.toString());
 
       switch (message.type) {
-        case "join":
+        case 'join':
           handleJoinRoom(client, message.room);
           break;
 
-        case "offer":
-        case "answer":
-        case "ice-candidate":
+        case 'offer':
+        case 'answer':
+        case 'ice-candidate':
           handleSignaling(client, message);
           break;
 
-        case "leave":
+        case 'leave':
           handleLeaveRoom(client);
           break;
       }
     } catch (err) {
-      console.error("Error handling message:", err);
+      console.error('Error handling message:', err);
     }
   });
 
-  ws.on("close", () => {
+  ws.on('close', () => {
     console.log(`Client ${clientId} disconnected`);
     handleLeaveRoom(client);
     clients.delete(clientId);
@@ -102,7 +97,7 @@ function handleJoinRoom(client: Client, roomId: string) {
 
   client.ws.send(
     JSON.stringify({
-      type: "room-joined",
+      type: 'room-joined',
       room: roomId,
       others: otherClients,
     })
@@ -113,7 +108,7 @@ function handleJoinRoom(client: Client, roomId: string) {
     if (other) {
       other.ws.send(
         JSON.stringify({
-          type: "new-peer",
+          type: 'new-peer',
           peerId: client.id,
         })
       );
@@ -150,7 +145,7 @@ function handleLeaveRoom(client: Client) {
         if (other) {
           other.ws.send(
             JSON.stringify({
-              type: "peer-left",
+              type: 'peer-left',
               peerId: client.id,
             })
           );

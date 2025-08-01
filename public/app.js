@@ -8,8 +8,8 @@ class VoiceChat {
     this.isMuted = false;
 
     this.iceServers = [
-      { urls: "stun:stun.l.google.com:19302" },
-      { urls: "stun:stun1.l.google.com:19302" },
+      { urls: 'stun:stun.l.google.com:19302' },
+      { urls: 'stun:stun1.l.google.com:19302' },
     ];
 
     this.initializeElements();
@@ -18,35 +18,35 @@ class VoiceChat {
 
   initializeElements() {
     this.elements = {
-      connectSection: document.getElementById("connect-section"),
-      chatSection: document.getElementById("chat-section"),
-      roomInput: document.getElementById("room-input"),
-      connectBtn: document.getElementById("connect-btn"),
-      leaveBtn: document.getElementById("leave-btn"),
-      muteBtn: document.getElementById("mute-btn"),
-      roomIdSpan: document.getElementById("room-id"),
-      statusSpan: document.getElementById("connection-status"),
-      peerCountSpan: document.getElementById("peer-count"),
-      localLevel: document.getElementById("local-level"),
-      peersDiv: document.getElementById("peers"),
-      muteIcon: document.querySelector(".mute-icon"),
-      unmuteIcon: document.querySelector(".unmute-icon"),
+      connectSection: document.getElementById('connect-section'),
+      chatSection: document.getElementById('chat-section'),
+      roomInput: document.getElementById('room-input'),
+      connectBtn: document.getElementById('connect-btn'),
+      leaveBtn: document.getElementById('leave-btn'),
+      muteBtn: document.getElementById('mute-btn'),
+      roomIdSpan: document.getElementById('room-id'),
+      statusSpan: document.getElementById('connection-status'),
+      peerCountSpan: document.getElementById('peer-count'),
+      localLevel: document.getElementById('local-level'),
+      peersDiv: document.getElementById('peers'),
+      muteIcon: document.querySelector('.mute-icon'),
+      unmuteIcon: document.querySelector('.unmute-icon'),
     };
   }
 
   attachEventListeners() {
-    this.elements.connectBtn.addEventListener("click", () => this.connect());
-    this.elements.leaveBtn.addEventListener("click", () => this.disconnect());
-    this.elements.muteBtn.addEventListener("click", () => this.toggleMute());
-    this.elements.roomInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") this.connect();
+    this.elements.connectBtn.addEventListener('click', () => this.connect());
+    this.elements.leaveBtn.addEventListener('click', () => this.disconnect());
+    this.elements.muteBtn.addEventListener('click', () => this.toggleMute());
+    this.elements.roomInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') this.connect();
     });
   }
 
   async connect() {
     const room = this.elements.roomInput.value.trim();
     if (!room) {
-      alert("Please enter a room ID");
+      alert('Please enter a room ID');
       return;
     }
 
@@ -54,8 +54,8 @@ class VoiceChat {
       await this.getUserMedia();
       this.connectWebSocket(room);
     } catch (err) {
-      console.error("Error connecting:", err);
-      alert("Failed to access microphone. Please check permissions.");
+      console.error('Error connecting:', err);
+      alert('Failed to access microphone. Please check permissions.');
     }
   }
 
@@ -73,8 +73,7 @@ class VoiceChat {
   }
 
   setupAudioLevelMonitoring(stream, levelElement) {
-    const audioContext = new (window.AudioContext ||
-      window.webkitAudioContext)();
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const analyser = audioContext.createAnalyser();
     const microphone = audioContext.createMediaStreamSource(stream);
     const dataArray = new Uint8Array(analyser.frequencyBinCount);
@@ -88,7 +87,7 @@ class VoiceChat {
       analyser.getByteFrequencyData(dataArray);
       const average = dataArray.reduce((a, b) => a + b) / dataArray.length;
       const normalized = Math.min(100, (average / 128) * 100);
-      levelElement.style.width = normalized + "%";
+      levelElement.style.width = normalized + '%';
 
       if (stream.active) {
         requestAnimationFrame(checkLevel);
@@ -99,12 +98,12 @@ class VoiceChat {
   }
 
   connectWebSocket(room) {
-    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     this.ws = new WebSocket(`${protocol}//${window.location.host}`);
 
     this.ws.onopen = () => {
-      console.log("WebSocket connected");
-      this.updateConnectionStatus("Connected", true);
+      console.log('WebSocket connected');
+      this.updateConnectionStatus('Connected', true);
     };
 
     this.ws.onmessage = (event) => {
@@ -113,14 +112,14 @@ class VoiceChat {
     };
 
     this.ws.onclose = () => {
-      console.log("WebSocket disconnected");
-      this.updateConnectionStatus("Disconnected", false);
+      console.log('WebSocket disconnected');
+      this.updateConnectionStatus('Disconnected', false);
       this.cleanup();
     };
 
     this.ws.onerror = (error) => {
-      console.error("WebSocket error:", error);
-      this.updateConnectionStatus("Error", false);
+      console.error('WebSocket error:', error);
+      this.updateConnectionStatus('Error', false);
     };
 
     this.roomId = room;
@@ -128,44 +127,44 @@ class VoiceChat {
 
   handleMessage(message) {
     switch (message.type) {
-      case "id":
+      case 'id':
         this.clientId = message.id;
         this.joinRoom();
         break;
 
-      case "room-joined":
+      case 'room-joined':
         this.onRoomJoined(message);
         break;
 
-      case "new-peer":
+      case 'new-peer':
         this.createPeerConnection(message.peerId, true);
         break;
 
-      case "offer":
+      case 'offer':
         this.handleOffer(message);
         break;
 
-      case "answer":
+      case 'answer':
         this.handleAnswer(message);
         break;
 
-      case "ice-candidate":
+      case 'ice-candidate':
         this.handleIceCandidate(message);
         break;
 
-      case "peer-left":
+      case 'peer-left':
         this.removePeer(message.peerId);
         break;
     }
   }
 
   joinRoom() {
-    this.send({ type: "join", room: this.roomId });
+    this.send({ type: 'join', room: this.roomId });
   }
 
   onRoomJoined(message) {
-    this.elements.connectSection.classList.add("hidden");
-    this.elements.chatSection.classList.remove("hidden");
+    this.elements.connectSection.classList.add('hidden');
+    this.elements.chatSection.classList.remove('hidden');
     this.elements.roomIdSpan.textContent = message.room;
 
     message.others.forEach((peerId) => {
@@ -189,7 +188,7 @@ class VoiceChat {
     pc.onicecandidate = (event) => {
       if (event.candidate) {
         this.send({
-          type: "ice-candidate",
+          type: 'ice-candidate',
           to: peerId,
           candidate: event.candidate,
         });
@@ -198,10 +197,7 @@ class VoiceChat {
 
     pc.onconnectionstatechange = () => {
       console.log(`Peer ${peerId} connection state:`, pc.connectionState);
-      if (
-        pc.connectionState === "failed" ||
-        pc.connectionState === "disconnected"
-      ) {
+      if (pc.connectionState === 'failed' || pc.connectionState === 'disconnected') {
         this.removePeer(peerId);
       }
     };
@@ -224,12 +220,12 @@ class VoiceChat {
       await peer.pc.setLocalDescription(offer);
 
       this.send({
-        type: "offer",
+        type: 'offer',
         to: peerId,
         offer: offer,
       });
     } catch (err) {
-      console.error("Error creating offer:", err);
+      console.error('Error creating offer:', err);
     }
   }
 
@@ -248,12 +244,12 @@ class VoiceChat {
       await peer.pc.setLocalDescription(answer);
 
       this.send({
-        type: "answer",
+        type: 'answer',
         to: peerId,
         answer: answer,
       });
     } catch (err) {
-      console.error("Error handling offer:", err);
+      console.error('Error handling offer:', err);
     }
   }
 
@@ -264,7 +260,7 @@ class VoiceChat {
     try {
       await peer.pc.setRemoteDescription(message.answer);
     } catch (err) {
-      console.error("Error handling answer:", err);
+      console.error('Error handling answer:', err);
     }
   }
 
@@ -275,7 +271,7 @@ class VoiceChat {
     try {
       await peer.pc.addIceCandidate(message.candidate);
     } catch (err) {
-      console.error("Error adding ICE candidate:", err);
+      console.error('Error adding ICE candidate:', err);
     }
   }
 
@@ -286,27 +282,27 @@ class VoiceChat {
       return;
     }
 
-    const audio = document.createElement("audio");
+    const audio = document.createElement('audio');
     audio.id = `audio-${peerId}`;
     audio.srcObject = stream;
     audio.autoplay = true;
 
-    const peerDiv = document.createElement("div");
-    peerDiv.className = "peer";
+    const peerDiv = document.createElement('div');
+    peerDiv.className = 'peer';
     peerDiv.id = `peer-${peerId}`;
 
-    const peerIdDiv = document.createElement("div");
-    peerIdDiv.className = "peer-id";
+    const peerIdDiv = document.createElement('div');
+    peerIdDiv.className = 'peer-id';
     peerIdDiv.textContent = `Peer: ${peerId}`;
 
-    const levelMeter = document.createElement("div");
-    levelMeter.className = "level-meter";
+    const levelMeter = document.createElement('div');
+    levelMeter.className = 'level-meter';
 
-    const levelBar = document.createElement("div");
-    levelBar.className = "level-bar";
+    const levelBar = document.createElement('div');
+    levelBar.className = 'level-bar';
 
-    const levelFill = document.createElement("div");
-    levelFill.className = "level-fill";
+    const levelFill = document.createElement('div');
+    levelFill.className = 'level-fill';
     levelFill.id = `level-${peerId}`;
 
     levelBar.appendChild(levelFill);
@@ -343,21 +339,21 @@ class VoiceChat {
       track.enabled = !this.isMuted;
     });
 
-    this.elements.muteIcon.classList.toggle("hidden");
-    this.elements.unmuteIcon.classList.toggle("hidden");
+    this.elements.muteIcon.classList.toggle('hidden');
+    this.elements.unmuteIcon.classList.toggle('hidden');
   }
 
   disconnect() {
     if (this.ws && this.ws.readyState === WebSocket.OPEN) {
-      this.send({ type: "leave" });
+      this.send({ type: 'leave' });
       this.ws.close();
     }
 
     this.cleanup();
 
-    this.elements.connectSection.classList.remove("hidden");
-    this.elements.chatSection.classList.add("hidden");
-    this.elements.roomInput.value = "";
+    this.elements.connectSection.classList.remove('hidden');
+    this.elements.chatSection.classList.add('hidden');
+    this.elements.roomInput.value = '';
   }
 
   cleanup() {
@@ -371,8 +367,8 @@ class VoiceChat {
       this.localStream = null;
     }
 
-    this.elements.peersDiv.innerHTML = "";
-    this.elements.localLevel.style.width = "0%";
+    this.elements.peersDiv.innerHTML = '';
+    this.elements.localLevel.style.width = '0%';
 
     this.clientId = null;
     this.roomId = null;
@@ -387,7 +383,7 @@ class VoiceChat {
 
   updateConnectionStatus(status, connected) {
     this.elements.statusSpan.textContent = status;
-    this.elements.statusSpan.classList.toggle("connected", connected);
+    this.elements.statusSpan.classList.toggle('connected', connected);
   }
 
   updatePeerCount() {

@@ -1,30 +1,32 @@
 {
-    "name": "web-talk",
-    "module": "server/index.ts",
-    "type": "module",
-    "scripts": {
-        "dev": "bun run --watch server/index.ts",
-        "start": "bun run server/index.ts",
-        "build": "bun build server/index.ts --outdir=dist --target=node"
-    },
-    "devDependencies": {
-        "@types/bun": "latest",
-        "@types/ws": "^8.5.12",
-        "eslint": "^9.32.0",
-        "eslint-config-prettier": "^10.1.8",
-        "eslint-plugin-prettier": "^5.5.3",
-        "lint-staged": "^16.1.2",
-        "prettier": "^3.6.2",
-        "prettier-plugin-tailwindcss": "^0.6.14",
-        "stylelint": "^16.23.0",
-        "stylelint-config-prettier": "^9.0.5",
-        "stylelint-config-standard": "^39.0.0",
-        "stylelint-prettier": "^5.0.3"
-    },
-    "peerDependencies": {
-        "typescript": "^5.0.0"
-    },
-    "dependencies": {
-        "ws": "^8.18.0"
-    }
+  "name": "web-talk",
+  "module": "server/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --watch server/index.ts",
+    "start": "bun run server/index.ts",
+    "build": "bun build server/index.ts --outdir=dist --target=node"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/ws": "^8.5.12",
+    "eslint": "^9.32.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.3",
+    "globals": "^16.3.0",
+    "lint-staged": "^16.1.2",
+    "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "stylelint": "^16.23.0",
+    "stylelint-config-prettier": "^9.0.5",
+    "stylelint-config-standard": "^39.0.0",
+    "stylelint-prettier": "^5.0.3",
+    "typescript-eslint": "^8.38.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
 }
